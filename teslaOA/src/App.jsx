@@ -5,6 +5,7 @@ function App() {
   const [items, setItems] = useState([]);
   const [regionFilter, setRegionFilter] = useState('all');
   const [modelFilter, setModelFilter] = useState('all');
+  const [regionSums, setRegionSums] = useState([]);
 
   const onRegionChange = (e) => {
     setRegionFilter(e.target.value);
@@ -13,6 +14,22 @@ function App() {
   const onModelChange = (e) => {
     setModelFilter(e.target.value);
   }
+
+  useEffect(() => {
+    let [sumUS, sumEU, sumCA] = [0, 0, 0];
+    for (let item of data) {
+      if (item.region === 'US') {
+        sumUS += item.sales;
+      } else if (item.region === 'EU') {
+        sumEU += item.sales;
+      } else {
+        sumCA += item.sales;
+      }
+    }
+    setRegionSums([{region: 'US', sum: sumUS}, {region: 'EU', sum: sumEU}, {region: 'CA', sum: sumCA}]);
+  }, []);
+
+  console.log(regionSums);
 
   useEffect(() => {
     if (regionFilter === 'all' && modelFilter === 'all') {
@@ -60,6 +77,15 @@ function App() {
               <td>{item.region}</td>
               <td>{item.model}</td>
               <td>{item.sales}</td>
+            </tr>
+          )
+        })}
+        {regionSums.map((item) => {
+          return (
+            <tr>
+              <td>{item.region}</td>
+              <td>sum</td>
+              <td>{item.sum}</td>
             </tr>
           )
         })}
