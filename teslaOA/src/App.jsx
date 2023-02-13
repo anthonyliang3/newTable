@@ -80,7 +80,7 @@ function App() {
             </tr>
           )
         })}
-        {regionSums.map((item) => {
+        {(regionFilter === 'all' && modelFilter === 'all') ?regionSums.map((item) => {
           return (
             <tr>
               <td>{item.region}</td>
@@ -88,7 +88,8 @@ function App() {
               <td>{item.sum}</td>
             </tr>
           )
-        })}
+        }) : null}
+
       </table>
     </div>
   )
